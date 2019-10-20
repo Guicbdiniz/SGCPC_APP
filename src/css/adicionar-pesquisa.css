@@ -5,3 +5,19 @@
 main {
 	padding: 0;
 }
+
+.linha-form{
+	margin-bottom: 30px;
+}
+
+.form-equipe-apoio{
+	margin-bottom: 30px;
+}
+
+.form-investigador{
+	margin-bottom: 30px;
+}
+
+.botoes-form{
+	margin-bottom: 60px;
+}

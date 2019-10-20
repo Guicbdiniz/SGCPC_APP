@@ -7,6 +7,8 @@
     <title>SGCPC</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css" />
     <link rel="stylesheet" href="../css/adicionar-pesquisa.css"/>
+    <script src="../js/adicionar-pesquisa.js"></script>
+    <script src="../js/pesquisa-form.js"></script>
   </head>
   <body>
 
@@ -31,15 +33,125 @@
         </h2>
 
         <form>
-            <div class="row">
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="First name">
-                </div>  
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="Last name">
+            <div class="row linha-form">
+                <div class="form-group col-md-2">
+                  <label for="input-tipo_de_pesquisa">Tipo de Pesquisa</label>
+                  <select id="input-tipo_de_pesquisa" class="form-control " placeholder="Tipo de Pesquisa">
+                    <option value="" selected>
+                      Escolha...
+                    </option>
+                    <option value="CL"> Clínica </option>
+                    <option value="CI"> Científica </option>
+                  </select>
+                </div>
+                <div class="form-group col-md-8">
+                  <label for="input-titulo">Título da Pesquisa</label>
+                  <input type="text" class="form-control" id="input-titulo" placeholder="Título da Pesquisa">
                 </div>
             </div>
+
+            <div class="row linha-form">
+              <div class="form-group col-md-8">
+                <label for="input-nome_fantasia">Nome Fantasia</label>
+                <input type="text" class="form-control" id="input-nome_fantasia" placeholder="Nome Fantasia">
+              </div>
+            </div>
+
+            <div class="row linha-form">
+              <div class="form-group col-md-4">
+                <label for="input-numero_de_contrato">Número do Contrato</label>
+                <input class="form-control" type="number" id="input-numero_de_contrato" placeholder="Número do Contrato">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="input-numero_CAAE">Número CAAE(Plataforma Brasil)</label>
+                <input class="form-control" type="number" id="input-numero_CAAE" placeholder="Número CAAE">
+              </div>
+            </div>
+
+            <div class="row linha-form">
+              <div class="form-group col-md-6">
+                <label for="input-patrocinadores">Patrocinadores</label>
+                <input class="form-control" type="text" id="input-patrocinadores" placeholder="Patrocinadores">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="input-setor_de_atuacao">Setor de Atuação</label>
+                <input class="form-control" type="text" id="input-setor_de_atuacao" placeholder="Setor De Atuacação">
+              </div>
+            </div>
+
+            <div class="row linha-form">
+              <div class="form-group col-md-4">
+                <label for="input-status">Status</label>
+                <select class="form-control" id="input-status" placeholder="Status">
+                  <option value="" selected>Escolha...</option>
+                  <option value="EA">Em Andamento</option>
+                  <option value="CO">Concluída</option>
+                  <option value="CA">Cancelada</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="input-vinculo_institucional">Vínculo Institucional</label>
+                <select class="form-control" id="input-vinculo_institucional" placeholder="Vínculo Institucional">
+                  <option value="" selected>Escolha...</option>
+                  <option value="PT">Pesquisa de Centro Terceirizado</option>
+                  <option value="PI">Pesquisa Institucional</option>
+                  <option value="PA">Pesquisa Acadêmica</option>
+                </select>
+              </div>
+            </div>
+
+          <div class="form-investigador">
+            <h4>
+              Investigador Principal
+            </h4>
+
+            <div class="row">
+              <div class="form-group col-md-7">
+                <input type="text" class="form-control" id="input-investigador-nome" placeholder="Nome">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-5">
+                <input type="text" class="form-control" id="input-investigador-email" placeholder="Email">
+              </div>
+
+              <div class="form-group col-md-5">
+                <input type="number" class="form-control" id="input-investigador-telefone" placeholder="Telefone">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-equipe-apoio">
+            <h4>
+              Equipe De Apoio
+            </h4>
+
+            <div class="row">
+              <div class="form-group col-md-7">
+                <input type="text" class="form-control" id="input-equipe-apoio-nome_da_coordenacao" placeholder="Nome da Coordenação de Estudos">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-5">
+                <input type="text" class="form-control" id="input-equipe-apoio-email" placeholder="Email">
+              </div>
+
+              <div class="form-group col-md-5">
+                <input type="number" class="form-control" id="input-equipe-apoio-telefone" placeholder="Telefone">
+              </div>
+            </div>
+
+          </div>
+
         </form>
+
+        <div class="botoes-form">
+          <button type="submit" class="btn btn-dark" onclick="adicionaPesquisa()">Adicionar</button>
+          <button type="submit" class="btn btn-dark" onclick="voltarPagina()">Voltar</button>
+        </div>
     </div>
   </main>
 

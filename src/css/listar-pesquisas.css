@@ -1,0 +1,15 @@
+.titulo-tabela{
+    margin-bottom: 30px;
+}
+
+.botoes-form{
+    margin-bottom: 50px;
+}
+
+.hidden{
+/*    display: none;*/
+}
+
+.shown{
+    display: block;
+}
