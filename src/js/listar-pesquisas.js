@@ -68,8 +68,65 @@ function pegaPesquisas() {
 
 }
 
-function criaModal(pesquisaID) {
-    console.log(`Id da pesquisa: ${pesquisaID}`);
+async function criaModal(pesquisaID) {
+    let todasAsPesquisas = await pegaPesquisas();
 
+    let pesquisa = todasAsPesquisas.filter(pesquisa => pesquisa.id == pesquisaID)[0];
 
+    let tipoDaPesquisaCompleto = pesquisa.tipo_de_pesquisa == 'CL' ?
+        'Clínica' :
+        'Científica';
+    let statusPesquisaCompleto = '';
+    let vinculoPesquisaCompleto = '';
+
+    if (pesquisa.status == 'EA') {
+        statusPesquisaCompleto = 'Em Andamento'
+    } else if (pesquisa.status == 'CO') {
+        statusPesquisaCompleto = 'Concluída'
+    } else {
+        statusPesquisaCompleto = 'Cancelado'
+    }
+
+    if (pesquisa.vinculo_institucional == 'PT') {
+        vinculoPesquisaCompleto = 'Pesquisa de Centro Terceirizado'
+    } else if (pesquisa.vinculo_institucional == 'PI') {
+        vinculoPesquisaCompleto = 'Pesquisa Institucional'
+    } else {
+        vinculoPesquisaCompleto = 'Pesquisa Acadêmica'
+    }
+
+    let htmlDoModal =
+        `
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pesquisa ${pesquisaID}</h5>
+                    <button type="button" onclick="fechaModal()" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><span class="atributo-pesquisa">Titulo da Pesquisa:</span> ${pesquisa.titulo}</p>
+                    <p><span class="atributo-pesquisa">Tipo da Pesquisa:</span> ${tipoDaPesquisaCompleto}</p>
+                    <p><span class="atributo-pesquisa">Status da Pesquisa:</span> ${statusPesquisaCompleto}</p>
+                    <p><span class="atributo-pesquisa">Nome Fantasia da Pesquisa:</span> ${pesquisa.nome_fantasia}</p>
+                    <p><span class="atributo-pesquisa">Setor de Atuação:</span> ${pesquisa.setor_de_atuacao}</p>
+                    <p><span class="atributo-pesquisa">Numero CAAE:</span> ${pesquisa.numero_CAAE}</p>
+                    <p><span class="atributo-pesquisa">Numero de Contrato:</span> ${pesquisa.numero_de_contrato} </p>
+                    <p><span class="atributo-pesquisa">Vínculo Institucional:</span> ${vinculoPesquisaCompleto} </p>
+                    <p><span class="atributo-pesquisa">Investigador Principal:</span> ${pesquisa.investigador.nome} </p>
+                </div>
+            </div>
+        </div>
+        `
+
+    let modalNoHtml = document.getElementById('modal-pesquisa');
+
+    modalNoHtml.innerHTML = htmlDoModal;
+
+    modalNoHtml.style.display = "block";
+}
+
+function fechaModal() {
+    document.getElementById('modal-pesquisa').style.display = "none";
 }

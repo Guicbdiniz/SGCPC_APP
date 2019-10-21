@@ -6,10 +6,14 @@
     margin-bottom: 50px;
 }
 
-.hidden{
-/*    display: none;*/
+.modal-dialog{
+    top:5%;
 }
 
-.shown{
-    display: block;
+.modal{
+    background-color: rgba(0,0,0,0.4);
+}
+
+.atributo-pesquisa{
+    font-weight: bolder;
 }
