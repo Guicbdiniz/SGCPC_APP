@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>SGCPC</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/listar-dados-monetarios.css"/>
+    <script src="../js/jquery-3.4.1.min.js"></script>
+    <script src="../js/listar-pesquisas.js"></script>
+    <script src="../js/dados-monetarios.js"></script>
+  </head>
+
+  <body onload="pegaOpcoesDePesquisa()">
+
+    <header>
+        <div class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">
+                    Sistema de Gestão Do Centro de Pesquisa Clínica
+                </h1>
+                <p class="lead text-muted">
+                    Hospital São Francisco <br>
+                    PUC Minas
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <div class="container tabela-dados">
+            <h2 class="titulo-tabela">
+              Listagem de Dados Monetários
+            </h2>
+
+            <form>
+                <div class="row linha-form">
+                    <div class="form-group col-md-8">
+                        <label for="input-pesquisa">Pesquisa</label>
+                        <select id="input-pesquisa" class="form-control" onchange="pegaDadosMonetariosDaPesquisa()">
+                            <option value="" selected>
+                                Escolha...
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" style="width: 10%">Tipo</th>
+                        <th scope="col">Rebecedor</th>
+                        <th scope="col" style="width: 20%">Número da Nota Fiscal</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col"  style="width: 10%">Valor</th>
+                        <th scope="col">Status</th>
+                        <!-- <th scope="col" style="width: 15%"></th> -->
+                        </tr>
+                </thead>
+                <tbody id="corpo-tabela">
+
+                </tbody>
+            </table>
+
+            <div class="botoes-form">
+                <button type="submit" class="btn btn-dark" onclick="voltarPagina()">Voltar</button>
+            </div>
+        </div>
+
+  </main>
+
+  <footer>
+  </footer>
+
+  <script src="../js/bootstrap.min.js"/>
+  </body>
+</html>
