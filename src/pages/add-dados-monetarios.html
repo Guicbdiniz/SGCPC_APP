@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>SGCPC</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/dados-monetarios.css"/>
+    <script src="../js/jquery-3.4.1.min.js"></script>
+    <script src="../js/listar-pesquisas.js"></script>
+    <script src="../js/dados-monetarios.js"></script>
+  </head>
+  <body onload="pegaOpcoesDePesquisa()">
+
+  <header>
+    <div class="jumbotron text-center">
+      <div class="container">
+        <h1 class="jumbotron-heading">
+          Sistema de Gestão Do Centro de Pesquisa Clínica
+        </h1>
+        <p class="lead text-muted">
+          Hospital São Francisco <br>
+          PUC Minas
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+      <div class="container dados-form">
+          <h2 class="titulo-form">
+            Adicionar Dados Monetários
+          </h2>
+
+          <form>
+            <div class="row linha-form">
+              <div class="form-group col-md-8">
+                <label for="input-pesquisa">Pesquisa</label>
+                <select id="input-pesquisa" class="form-control">
+                  <option value="" selected>
+                    Escolha...
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row linha-form">
+              <div class="form-group col-md-4">
+                <label for="input-tipo-dados">Tipo de Dados Monetários</label>
+                <select id="input-tipo-dados" class="form-control" onchange="checaTipoDeDados()">
+                  <option value="0" selected>
+                    Escolha...
+                  </option>
+                  
+                  <option value="1">
+                    Entrada Financeira
+                  </option>
+
+                  <option value="2">
+                    Saída Financeira
+                  </option>
+
+                </select>
+              </div>
+            
+              <div class="form-group col-md-7">
+                <label for="">Recebedor</label>
+                <input type="text" class="form-control" id="input-recebedor" placeholder="Recebedor" disabled>
+              </div>
+            </div>
+
+            <div class="row linha-form">
+              <div class="form-group col-md-5">
+                <label for="input-numero_nota_fiscal">Número da Nota Fiscal</label>
+                <input type="number" class="form-control" id="input-numero_nota_fiscal" placeholder="Número da Nota Fiscal">
+              </div>
+
+              <div class="form-group col-md-4">
+                <label for="input-valor">Valor</label>
+                <input type="number" class="form-control" id="input-valor" placeholder="Valor" step="any" min="1.00">
+              </div>
+            </div>
+
+            <div class="row linha-form">
+              <div class="form-group col-md-6">
+                <label for="input-descricao">Descrição</label>
+                <textarea class="form-control" id="input-descricao" cols="15" rows="4" placeholder="Descrição"></textarea>
+              </div>
+
+              <div class="form-group col-md-4">
+                <label for="input-status">Status</label>
+                <select id="input-status" class="form-control">
+                  <option value="0" selected>Escolha...</option>
+                  <option value="EM">Emitida</option>
+                  <option value="SE">Solicitada e Aguardando Emissão</option>
+                  <option value="CA">Cancelada</option>
+                </select>
+              </div>
+            </div>
+
+          </form>
+
+          <div class="botoes-form">
+          <button type="submit" class="btn btn-dark" onclick="adicionarDadosMonetarios()">Adicionar</button>
+          <button type="submit" class="btn btn-dark" onclick="voltarPagina()">Voltar</button>
+        </div>
+
+      </div>
+  </main>
+
+  <footer></footer>
+
+  <script src="../js/bootstrap.min.js"/>
+  </body>
+</html>

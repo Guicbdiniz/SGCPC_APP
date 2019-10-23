@@ -4,7 +4,6 @@ function voltarPagina() {
 
 async function listaPesquisas() {
     let todasAsPesquisas = await pegaPesquisas();
-    console.log(todasAsPesquisas);
 
     todasAsPesquisas.map(pesquisa => {
 

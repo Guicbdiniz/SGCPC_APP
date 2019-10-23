@@ -21,3 +21,13 @@ main {
 .botoes-form{
 	margin-bottom: 60px;
 }
+
+.jumbotron{
+  padding: 4rem 2rem 2rem;
+  background-color: #00746b;
+  color:black
+}
+
+.lead{
+  color:black !important
+}

@@ -1,0 +1,21 @@
+.jumbotron{
+  padding: 4rem 2rem 2rem;
+  background-color: #00746b;
+  color:black
+}
+
+.titulo-form {
+	margin-bottom: 40px;
+}
+
+.linha-form{
+	margin-bottom: 20px;
+}
+
+.botoes-form{
+	margin-bottom: 60px;
+}
+
+.lead{
+  color:black !important
+}

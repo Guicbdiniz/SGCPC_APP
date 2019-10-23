@@ -1,19 +1,16 @@
-function adicionaPesquisa() {
-    /*if (formEValido()) {
+async function adicionaPesquisa() {
+    if (formEValido()) {
         let dadosPesquisa = pegaDadosPesquisa();
+
+        try {
+            let requestFuncionou = await mandaPesquisaParaApi(dadosPesquisa);
+            alert('Pesquisa enviada com sucesso!');
+            document.location.href = '../index.html';
+        } catch (e) {
+            alert('Houve um erro ao enviar a pesquisa. Contate Equipe de desenvolvimento')
+        }
     } else {
         alert('Preencha todos os dados');
-    }*/
-
-    let dadosPesquisa = pegaDadosPesquisa();
-
-    let requestFuncionou = mandaPesquisaParaApi(dadosPesquisa);
-
-    if (requestFuncionou) {
-        alert('Pesquisada enviada com sucesso!');
-        document.location.href = '../index.html';
-    } else {
-        alert('Houve um erro ao enviar a pesquisa. Contate Equipe de desenvolvimento');
     }
 }
 
@@ -61,23 +58,35 @@ function pegaDadosPesquisa() {
 }
 
 function mandaPesquisaParaApi(pesquisa) {
-    const httpReq = new XMLHttpRequest();
-    const url = 'http://127.0.0.1:8000/sgcpc/pesquisas/'
 
-    httpReq.open('POST', url, true);
+    return new Promise((resolve, reject) => {
 
-    httpReq.setRequestHeader("Content-Type", "application/json");
 
-    httpReq.onload = function () {
-        // do something to response
-    };
+        const httpReq = new XMLHttpRequest();
+        const url = 'http://127.0.0.1:8000/sgcpc/pesquisas/'
 
-    httpReq.send(JSON.stringify(pesquisa));
+        httpReq.open('POST', url, true);
 
-    if (httpReq.status == 200 || httpReq.status == 201) {
-        return true;
-    } else {
-        return false;
-    }
+        httpReq.setRequestHeader("Content-Type", "application/json");
 
+        httpReq.onload = function () {
+            if (this.status >= 200 && this.status < 300) {
+                resolve(httpReq.response);
+            } else {
+                reject({
+                    status: this.status,
+                    statusText: httpReq.statusText
+                });
+            }
+        }
+
+        httpReq.onerror = function () {
+            reject({
+                status: this.status,
+                statusText: httpReq.statusText
+            })
+        }
+
+        httpReq.send(JSON.stringify(pesquisa));
+    })
 }

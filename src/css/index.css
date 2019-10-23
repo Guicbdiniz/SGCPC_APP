@@ -5,9 +5,19 @@
 }
 
 main {
-  padding-top: 50px;
+ /* padding-top: 50px; */
 }
 
 .card-link {
-  margin: 1% 1%;
+  margin: 1% 2% 2.7%;
+}
+
+.jumbotron{
+  padding: 4rem 2rem 2rem;
+  background-color: #00746b;
+  color:black
+}
+
+.lead{
+  color:black !important
 }
