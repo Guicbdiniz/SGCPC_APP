@@ -69,6 +69,8 @@ function pegaPesquisas() {
 
 async function criaModal(pesquisaID) {
     let todasAsPesquisas = await pegaPesquisas();
+    let todosOsPacientes = await pegaPacientes();
+    let numeroDePacientesDaPesquisa = pegaNumeroDePacientesDaPesquisa(pesquisaID, todosOsPacientes);
 
     let pesquisa = todasAsPesquisas.filter(pesquisa => pesquisa.id == pesquisaID)[0];
 
@@ -114,6 +116,7 @@ async function criaModal(pesquisaID) {
                     <p><span class="atributo-pesquisa">Numero de Contrato:</span> ${pesquisa.numero_de_contrato} </p>
                     <p><span class="atributo-pesquisa">Vínculo Institucional:</span> ${vinculoPesquisaCompleto} </p>
                     <p><span class="atributo-pesquisa">Investigador Principal:</span> ${pesquisa.investigador.nome} </p>
+                    <p><span class="atributo-pesquisa">Número de Pacientes:</span> <a href="listar-pacientes.html?idPesquisa=${pesquisaID}"> ${numeroDePacientesDaPesquisa} </a> </p>
                 </div>
             </div>
         </div>
@@ -128,4 +131,42 @@ async function criaModal(pesquisaID) {
 
 function fechaModal() {
     document.getElementById('modal-pesquisa').style.display = "none";
+}
+
+function pegaPacientes() {
+
+    return new Promise((resolve, reject) => {
+
+        const httpReq = new XMLHttpRequest();
+        const url = 'http://127.0.0.1:8000/sgcpc/pacientes/'
+
+        httpReq.responseType = 'json';
+
+        httpReq.open('GET', url);
+
+        httpReq.onload = function () {
+            if (this.status >= 200 && this.status < 300) {
+                resolve(httpReq.response);
+            } else {
+                reject({
+                    status: this.status,
+                    statusText: httpReq.statusText
+                });
+            }
+        }
+
+        httpReq.onerror = function () {
+            reject({
+                status: this.status,
+                statusText: httpReq.statusText
+            })
+        }
+
+        httpReq.send();
+    })
+
+}
+
+function pegaNumeroDePacientesDaPesquisa(idDaPesquisa, listaDePacientes) {
+    return listaDePacientes.filter(paciente => paciente['pesquisa'] == idDaPesquisa).length;
 }

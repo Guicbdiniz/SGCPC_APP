@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>SGCPC</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/listar-pacientes.css"/>
+    <script src="../js/jquery-3.4.1.min.js"></script>
+    <script src="../js/listar-pacientes.js"></script>
+  </head>
+  <body onload="listaPacientes()">
+
+  <header>
+    <div class="jumbotron text-center">
+      <div class="container">
+        <h1 class="jumbotron-heading">
+          Sistema de Gestão Do Centro de Pesquisa Clínica
+        </h1>
+        <p class="lead text-muted">
+          Hospital São Francisco <br>
+          PUC Minas
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tabela-pesquisas">
+        <h2 class="titulo-tabela" id="titulo-tabela">
+            Listagem de Pacientes
+        </h2>
+    
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nome</th>
+              <th scope="col">CPF</th>
+              <th scope="col">Telefone</th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela">
+
+          </tbody>
+        </table>
+
+        <div class="botoes-form">
+          <button type="submit" class="btn btn-dark" onclick="voltarPagina()">Voltar</button>
+        </div>
+    </div>
+  </main>
+
+  <footer></footer>
+
+  <!-- <div id="modal-pesquisa" tabindex="-1" class="modal hidden"></div> -->
+  <script src="../js/bootstrap.min.js"/>
+  </body>
+</html>

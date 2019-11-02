@@ -1,0 +1,29 @@
+.titulo-tabela{
+    margin-bottom: 30px;
+}
+
+.botoes-form{
+    margin-bottom: 50px;
+}
+
+.modal-dialog{
+    top:5%;
+}
+
+.modal{
+    background-color: rgba(0,0,0,0.4);
+}
+
+.atributo-pesquisa{
+    font-weight: bolder;
+}
+
+.jumbotron{
+  padding: 4rem 2rem 2rem;
+  background-color: #00746b;
+  color:black
+}
+
+.lead{
+  color:black !important
+}
