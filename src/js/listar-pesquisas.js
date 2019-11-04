@@ -2,10 +2,36 @@ function voltarPagina() {
     document.location.href = '../index.html';
 }
 
-async function listaPesquisas() {
-    let todasAsPesquisas = await pegaPesquisas();
 
-    todasAsPesquisas.map(pesquisa => {
+const pesquisa = {
+    "pesquisa":{
+    "id": "1",
+    "investigador": {
+    "nome" : "Tulao",
+    "email" : "tulao@gmail.com",
+    "telefone" : 996796042
+    },
+    "equipe_de_apoio" : {
+    "nome_da_coordenacao" : "Aro",
+    "email" : "aro@gmail.com",
+    "telefone" : 999999999
+    },
+    "tipo_de_pesquisa" : "CI",
+    "titulo" : "Pesquisa do tulao",
+    "nome_fantasia" : "Pesquisa do tulao 2",
+    "numero_de_contrato" : 123456,
+    "numero_CAAE" : 123987,
+    "patrocinadores" : "Rodrigo e Rommel",
+    "setor_de_atuacao" : "Qualquer bosta",
+    "status" : "CA",
+    "vinculo_institucional" : "PT"
+    }
+}
+async function listaPesquisas() {
+ 
+   let todasAsPesquisas = await pegaPesquisas();
+
+   todasAsPesquisas.map(pesquisa => {
 
         let tipoDaPesquisaCompleto = pesquisa.tipo_de_pesquisa == 'CL' ?
             'Clínica' :
@@ -66,10 +92,14 @@ function pegaPesquisas() {
     })
 
 }
+let editar = false;
+async function criaModal(pesquisaID, editar) {
 
-async function criaModal(pesquisaID) {
+    let editarPesquisa = editar;
+    
     let todasAsPesquisas = await pegaPesquisas();
-    let todosOsPacientes = await pegaPacientes();
+    
+    //let todosOsPacientes = await pegaPacientes();
     let numeroDePacientesDaPesquisa = pegaNumeroDePacientesDaPesquisa(pesquisaID, todosOsPacientes);
 
     let pesquisa = todasAsPesquisas.filter(pesquisa => pesquisa.id == pesquisaID)[0];
@@ -97,6 +127,35 @@ async function criaModal(pesquisaID) {
     }
 
     let htmlDoModal =
+        editarPesquisa ? `
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Pesquisa ${pesquisaID}</h5>
+                <button type="button" onclick="fechaModal()" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <form onsubmit="editarPesquisa(e.target.value)" method="post">
+            <p><span class="atributo-pesquisa">Titulo da Pesquisa:</span> <input value=${pesquisa.titulo}/> </p>
+            <p><span class="atributo-pesquisa">Tipo da Pesquisa:</span> <input value=${tipoDaPesquisaCompleto}/> </p>
+            <p><span class="atributo-pesquisa">Status da Pesquisa:</span> <input value=${statusPesquisaCompleto}/> </p>
+            <p><span class="atributo-pesquisa">Nome Fantasia da Pesquisa:</span> <input value=${pesquisa.nome_fantasia}/> </p>
+            <p><span class="atributo-pesquisa">Setor de Atuação:</span> <input value=${pesquisa.setor_de_atuacao}/> </p>
+            <p><span class="atributo-pesquisa">Numero CAAE:</span> <input value=${pesquisa.numero_CAAE}/> </p>
+            <p><span class="atributo-pesquisa">Numero de Contrato:</span> <input value=${pesquisa.numero_de_contrato}/> </p>
+            <p><span class="atributo-pesquisa">Vínculo Institucional:</span> <input value=${vinculoPesquisaCompleto}/>  </p>
+            <p><span class="atributo-pesquisa">Investigador Principal:</span> <input value=${pesquisa.investigador.nome}/>  </p>
+            <p><span class="atributo-pesquisa">Número de Pacientes:</span> <a href="listar-pacientes.html?idPesquisa=${pesquisaID}"> 2</a> </p>
+            <input type="submit" value="Enviar" class="btn btn-info" />  
+                    <button type="button" class="btn btn-dark" onclick="editarPesquisa=true; criaModal(${pesquisaID},false)" >Voltar </button>
+            </form>
+            </div>
+           
+        </div>
+    </div>
+    ` :
         `
         <div class="modal-dialog">
             <div class="modal-content">
@@ -116,7 +175,10 @@ async function criaModal(pesquisaID) {
                     <p><span class="atributo-pesquisa">Numero de Contrato:</span> ${pesquisa.numero_de_contrato} </p>
                     <p><span class="atributo-pesquisa">Vínculo Institucional:</span> ${vinculoPesquisaCompleto} </p>
                     <p><span class="atributo-pesquisa">Investigador Principal:</span> ${pesquisa.investigador.nome} </p>
-                    <p><span class="atributo-pesquisa">Número de Pacientes:</span> <a href="listar-pacientes.html?idPesquisa=${pesquisaID}"> ${numeroDePacientesDaPesquisa} </a> </p>
+                    <p><span class="atributo-pesquisa">Número de Pacientes:</span> <a href="listar-pacientes.html?idPesquisa=${pesquisaID}"> ${numeroDePacientesDaPesquisa}  </a> </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="editarPesquisa=true; criaModal(${pesquisaID},true)" >Editar </button>
                 </div>
             </div>
         </div>
@@ -131,6 +193,18 @@ async function criaModal(pesquisaID) {
 
 function fechaModal() {
     document.getElementById('modal-pesquisa').style.display = "none";
+}
+
+function editarPesquisa(data) {
+
+    fetch('http://127.0.0.1:8000/sgcpc/pacientes/', {
+        body:data,
+        method:'POST',
+        headers: {
+            'Content-Type': 'application/json'    
+        }
+        })
+
 }
 
 function pegaPacientes() {
@@ -164,7 +238,6 @@ function pegaPacientes() {
 
         httpReq.send();
     })
-
 }
 
 function pegaNumeroDePacientesDaPesquisa(idDaPesquisa, listaDePacientes) {
