@@ -185,11 +185,13 @@ async function pegaDadosMonetariosDaPesquisa(editarSaidaStatus, editarEntradaSta
             'status'='ok'
         ]
     }
-    idDaPesquisaSelecionada = 1;
-   
+
+    idDaPesquisaSelecionada = document.getElementById('input-pesquisa').value;
+
     if (idDaPesquisaSelecionada != '') {
-        let entradasMonetariasTotais = dadosMock;
-        let saidasMonetariasTotais = dadosMockEntrada;
+        let entradasMonetariasTotais = await pegaDadosAPI('entradafinanceira');
+        let saidasMonetariasTotais = await pegaDadosAPI('saidafinanceira');
+
 
         dadosTotais = entradasMonetariasTotais.concat(saidasMonetariasTotais);
 
