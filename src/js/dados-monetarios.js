@@ -220,7 +220,8 @@ async function pegaDadosMonetariosDaPesquisa(editarSaidaStatus, editarEntradaSta
                     <td><input value=${dados['numero_nota_fiscal']}/></td>
                     <td><input value=${dados['descricao']}/></td>
                     <td><input value=${dados['valor']}/></td>
-                    <td><input value=${dados['status']}/></td>
+                    <td><select selected=${dados['status']}><option value="EA">Em andamento</option> <option value="CO">Concluída</option><option value="CA">Cancelado</option></select></td>
+                   
                     <td><input type="submit" value="Salvar" class="btn btn-success" />
                     </form>
                     </tr>`   
@@ -233,7 +234,7 @@ async function pegaDadosMonetariosDaPesquisa(editarSaidaStatus, editarEntradaSta
                     <td>${dados['numero_nota_fiscal']}</td>
                     <td>${dados['descricao']}</td>
                     <td>${dados['valor']}</td>
-                    <td>${dados['status']}</td>
+                    <td><select selected=${dados['status']}><option value="EA">Em andamento</option> <option value="CO">Concluída</option><option value="CA">Cancelado</option></select></td>
                     <td><button class="btn btn-info" onclick="editarSaida=true; pegaDadosMonetariosDaPesquisa(true,false);">Editar</button>
                     </tr>`
                 }
