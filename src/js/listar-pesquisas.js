@@ -29,7 +29,7 @@ const pesquisa = {
 async function listaPesquisas() {
   let todasAsPesquisas = pesquisa;
 
-  Object.values(todasAsPesquisas)
+  todasAsPesquisas
     .map(pesquisa => {
       let tipoDaPesquisaCompleto =
         pesquisa.tipo_de_pesquisa == 'CL' ? 'Clínica' : 'Científica';
@@ -116,12 +116,15 @@ async function criaModal(pesquisaID, editar) {
 
   let editarPesquisa = editar;
 
-  let todasAsPesquisas = pesquisa1;
+  let todasAsPesquisas = pegaPesquisas();
 
   //let todosOsPacientes = await pegaPacientes();
-  let numeroDePacientesDaPesquisa = 2;
+  let numeroDePacientesDaPesquisa = pegaNumeroDePacientesDaPesquisa(
+    pesquisaID,
+    pegaPacientes
+  );
 
-  let pesquisa = Object.values(todasAsPesquisas).filter(
+  let pesquisa = todasAsPesquisas.filter(
     pesquisa => pesquisa.id == pesquisaID
   )[0];
 
@@ -168,7 +171,7 @@ async function criaModal(pesquisaID, editar) {
             <p><span class="atributo-pesquisa">Numero de Contrato:</span> <input value=${pesquisa.numero_de_contrato}/> </p>
             <p><span class="atributo-pesquisa">Vínculo Institucional:</span> <select selected=${vinculoPesquisaCompleto}><option value="PT">Pesquisa de Centro Terceirizado</option> <option value="PI">Pesquisa Institucional</option><option value="PA">Pesquisa Acadêmica</option></select> </p>
             <p><span class="atributo-pesquisa">Investigador Principal:</span> <input value=${pesquisa.investigador.nome}/>  </p>
-            <p><span class="atributo-pesquisa">Número de Pacientes:</span> <a href="listar-pacientes.html?idPesquisa=${pesquisaID}"> 2</a> </p>
+            <p><span class="atributo-pesquisa">Número de Pacientes:</span> <a href="listar-pacientes.html?idPesquisa=${pesquisaID}"> ${numeroDePacientesDaPesquisa}</a> </p>
             <input type="submit" value="Enviar" class="btn btn-info" onclick="" />  
             <button type="button" class="btn btn-dark" onclick="editarPesquisa=true; criaModal(${pesquisaID},false)" >Voltar </button>
             </form>
