@@ -213,7 +213,7 @@ async function pegaDadosMonetariosDaPesquisa(editarSaidaStatus, editarEntradaSta
                     return `
                     <tr class="linha-tabela">
                     <th scope="row">Saída</th>
-                    <form onSubmit="editarSaidaFinanceira()">
+                    <form onSubmit="editarSaidaFinanceira(event,${dados['recebedor']})">
                     <td><input value=${dados['recebedor']}/></td>
                     <td><input value=${dados['numero_nota_fiscal']}/></td>
                     <td><input value=${dados['descricao']}/></td>
@@ -240,7 +240,7 @@ async function pegaDadosMonetariosDaPesquisa(editarSaidaStatus, editarEntradaSta
                         `  <tr class="linha-tabela">
                         <th scope="row">Entrada</th>
                         <td>-</td>
-                        <form onSubmit="editarEntradaFinanceira(e.target.value)">
+                        <form onSubmit="editarEntradaFinanceira(event,${dados['recebedor']})">
                         <td><input value=${dados['numero_nota_fiscal']}/></td>
                         <td><input value=${dados['descricao']}/></td>
                         <td><input value=${dados['valor']}/></td>
@@ -257,7 +257,7 @@ async function pegaDadosMonetariosDaPesquisa(editarSaidaStatus, editarEntradaSta
                     <td>${dados['descricao']}</td>
                     <td>${dados['valor']}</td>
                     <td>${dados['status']}</td>
-                    <td><button class="btn btn-info" onclick="ditarEntrada=true; pegaDadosMonetariosDaPesquisa(false,true);">Editar</button>
+                    <td><button class="btn btn-info" onclick="editarEntrada=true; pegaDadosMonetariosDaPesquisa(false,true);">Editar</button>
                     </tr>`
                 }
             }
@@ -273,24 +273,83 @@ async function pegaDadosMonetariosDaPesquisa(editarSaidaStatus, editarEntradaSta
 
 }
 
-function editarSaidaFinanceira(content) {
-    fetch('http://127.0.0.1:8000/sgcpc/saidaFinanceira', {
-        body:content,
-        method:'POST',
-        headers: {
-            'Content-Type': 'application/json'    
+function editarSaidaFinanceira(event,pesquisaId) {
+    const dataJson = {
+        recebedor: event.target[0].value,
+        numero_nota_fiscal: event.target[1].value,
+        descricao: event.target[2].value,
+        valor: event.target[3].value,
+        status: event.target[4].value
+}
+    return new Promise((resolve, reject) => {
+
+
+        const httpReq = new XMLHttpRequest();
+        const url = `http://127.0.0.1:8000/sgcpc/saidafinanceira/${pesquisaId}`
+
+        httpReq.open('PATCH', url, true);
+
+        httpReq.setRequestHeader("Content-Type", "application/json");
+
+        httpReq.onload = function () {
+            if (this.status >= 200 && this.status < 300) {
+                resolve(httpReq.response);
+            } else {
+                reject({
+                    status: this.status,
+                    statusText: httpReq.statusText
+                });
+            }
         }
-        })
+
+        httpReq.onerror = function () {
+            reject({
+                status: this.status,
+                statusText: httpReq.statusText
+            })
+        }
+
+        httpReq.send(JSON.stringify(dataJson));
+    })
 }
 
-function editarEntradaFinanceira(content) {
-    fetch('http://127.0.0.1:8000/sgcpc/entradaFinanceira', {
-        body:content,
-        method:'POST',
-        headers: {
-            'Content-Type': 'application/json'    
+function editarEntradaFinanceira(event,pesquisaId) {
+    const dataJson = {
+        numero_nota_fiscal: event.target[0].value,
+        descricao: event.target[1].value,
+        valor: event.target[2].value,
+        status: event.target[3].value
+    }
+    return new Promise((resolve, reject) => {
+
+
+        const httpReq = new XMLHttpRequest();
+        const url = `http://127.0.0.1:8000/sgcpc/entradafinanceira/${pesquisaId}`
+
+        httpReq.open('PATCH', url, true);
+
+        httpReq.setRequestHeader("Content-Type", "application/json");
+
+        httpReq.onload = function () {
+            if (this.status >= 200 && this.status < 300) {
+                resolve(httpReq.response);
+            } else {
+                reject({
+                    status: this.status,
+                    statusText: httpReq.statusText
+                });
+            }
         }
-        })
+
+        httpReq.onerror = function () {
+            reject({
+                status: this.status,
+                statusText: httpReq.statusText
+            })
+        }
+
+        httpReq.send(JSON.stringify(dataJson));
+    })
 }
 
 function pegaDadosAPI(urlChegada) {
