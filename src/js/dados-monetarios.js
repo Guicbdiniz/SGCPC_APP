@@ -155,19 +155,41 @@ function mandaSaidaParaAPi(dados) {
                 statusText: httpReq.statusText
             })
         }
-
         httpReq.send(JSON.stringify(dados));
 
     })
 }
-
-async function pegaDadosMonetariosDaPesquisa() {
-
-    idDaPesquisaSelecionada = document.getElementById('input-pesquisa').value;
-
+let editarEntrada = false;
+let editarSaida = false;
+async function pegaDadosMonetariosDaPesquisa(editarSaidaStatus, editarEntradaStatus) {
+    editarSaida=editarSaidaStatus;
+    editarEntrada=editarEntradaStatus;
+    let dadosMock = {
+        'dados': [
+            'status'= 'EM',
+            'pesquisa'='1',
+            'recebedor'='joão',
+            'numero_nota_fiscal'='123',
+            'descricao'='teste',
+            'valor'='asda',
+            'status'='ok'
+        ]
+    }
+    let dadosMockEntrada = {
+        'dados': [
+            'status'= 'EM',
+            'pesquisa'='1',
+            'numero_nota_fiscal'='123',
+            'descricao'='teste',
+            'valor'='asda',
+            'status'='ok'
+        ]
+    }
+    idDaPesquisaSelecionada = 1;
+   
     if (idDaPesquisaSelecionada != '') {
-        let entradasMonetariasTotais = await pegaDadosAPI('entradafinanceira');
-        let saidasMonetariasTotais = await pegaDadosAPI('saidafinanceira');
+        let entradasMonetariasTotais = dadosMock;
+        let saidasMonetariasTotais = dadosMockEntrada;
 
         dadosTotais = entradasMonetariasTotais.concat(saidasMonetariasTotais);
 
@@ -187,6 +209,21 @@ async function pegaDadosMonetariosDaPesquisa() {
         }).map(
             dados => {
                 if (dados['recebedor'] != undefined) {
+                    if(editarSaida==true){
+                    return `
+                    <tr class="linha-tabela">
+                    <th scope="row">Saída</th>
+                    <form onSubmit="editarSaidaFinanceira()">
+                    <td><input value=${dados['recebedor']}/></td>
+                    <td><input value=${dados['numero_nota_fiscal']}/></td>
+                    <td><input value=${dados['descricao']}/></td>
+                    <td><input value=${dados['valor']}/></td>
+                    <td><input value=${dados['status']}/></td>
+                    <td><input type="submit" value="Salvar" class="btn btn-success" />
+                    </form>
+                    </tr>`   
+                    }
+                    else{
                     return `
                     <tr class="linha-tabela">
                     <th scope="row">Saída</th>
@@ -195,18 +232,35 @@ async function pegaDadosMonetariosDaPesquisa() {
                     <td>${dados['descricao']}</td>
                     <td>${dados['valor']}</td>
                     <td>${dados['status']}</td>
+                    <td><button class="btn btn-info" onclick="editarSaida=true; pegaDadosMonetariosDaPesquisa(true,false);">Editar</button>
                     </tr>`
+                }
                 } else {
+                    if(editarEntrada==true){
+                        `  <tr class="linha-tabela">
+                        <th scope="row">Entrada</th>
+                        <td>-</td>
+                        <form onSubmit="editarEntradaFinanceira(e.target.value)">
+                        <td><input value=${dados['numero_nota_fiscal']}/></td>
+                        <td><input value=${dados['descricao']}/></td>
+                        <td><input value=${dados['valor']}/></td>
+                        <td><input value=${dados['status']}/></td>
+                        <td><input type="submit" value="Salvar" class="btn btn-success" />
+                        </form>
+                        </tr>`
+                    }else{
                     return `
                     <tr class="linha-tabela">
                     <th scope="row">Entrada</th>
                     <td>-</td>
-                    <td>${dados['numero_nota_fiscal']}</td>
+                     <td>${dados['numero_nota_fiscal']}</td>
                     <td>${dados['descricao']}</td>
                     <td>${dados['valor']}</td>
                     <td>${dados['status']}</td>
+                    <td><button class="btn btn-info" onclick="ditarEntrada=true; pegaDadosMonetariosDaPesquisa(false,true);">Editar</button>
                     </tr>`
                 }
+            }
             }
         );
 
@@ -217,6 +271,26 @@ async function pegaDadosMonetariosDaPesquisa() {
     }
 
 
+}
+
+function editarSaidaFinanceira(content) {
+    fetch('http://127.0.0.1:8000/sgcpc/saidaFinanceira', {
+        body:content,
+        method:'POST',
+        headers: {
+            'Content-Type': 'application/json'    
+        }
+        })
+}
+
+function editarEntradaFinanceira(content) {
+    fetch('http://127.0.0.1:8000/sgcpc/entradaFinanceira', {
+        body:content,
+        method:'POST',
+        headers: {
+            'Content-Type': 'application/json'    
+        }
+        })
 }
 
 function pegaDadosAPI(urlChegada) {
