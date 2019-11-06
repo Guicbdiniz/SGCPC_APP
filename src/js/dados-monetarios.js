@@ -215,7 +215,7 @@ async function pegaDadosMonetariosDaPesquisa(editarSaidaStatus, editarEntradaSta
                     return `
                     <tr class="linha-tabela">
                     <th scope="row">Saída</th>
-                    <form onSubmit="editarSaidaFinanceira(event,${dados['recebedor']})">
+                    <form onsubmit="editarSaidaFinanceira(event,${dados['recebedor']})">
                     <td><input value=${dados['recebedor']}/></td>
                     <td><input value=${dados['numero_nota_fiscal']}/></td>
                     <td><input value=${dados['descricao']}/></td>
@@ -243,7 +243,7 @@ async function pegaDadosMonetariosDaPesquisa(editarSaidaStatus, editarEntradaSta
                         `  <tr class="linha-tabela">
                         <th scope="row">Entrada</th>
                         <td>-</td>
-                        <form onSubmit="editarEntradaFinanceira(event,${dados['recebedor']})">
+                        <form onsubmit="editarEntradaFinanceira(event,${dados['recebedor']})">
                         <td><input value=${dados['numero_nota_fiscal']}/></td>
                         <td><input value=${dados['descricao']}/></td>
                         <td><input value=${dados['valor']}/></td>
