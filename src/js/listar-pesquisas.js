@@ -1,49 +1,49 @@
 function voltarPagina() {
-  document.location.href = '../index.html';
+    document.location.href = '../index.html';
 }
 
 const pesquisa = {
-  pesquisa: {
-    id: '1',
-    investigador: {
-      nome: 'Tulao',
-      email: 'tulao@gmail.com',
-      telefone: 996796042
-    },
-    equipe_de_apoio: {
-      nome_da_coordenacao: 'Aro',
-      email: 'aro@gmail.com',
-      telefone: 999999999
-    },
-    tipo_de_pesquisa: 'CI',
-    titulo: 'Pesquisa do tulao',
-    nome_fantasia: 'Pesquisa do tulao 2',
-    numero_de_contrato: 123456,
-    numero_CAAE: 123987,
-    patrocinadores: 'Rodrigo e Rommel',
-    setor_de_atuacao: 'Qualquer bosta',
-    status: 'CA',
-    vinculo_institucional: 'PT'
-  }
+    pesquisa: {
+        id: '1',
+        investigador: {
+            nome: 'Tulao',
+            email: 'tulao@gmail.com',
+            telefone: 996796042
+        },
+        equipe_de_apoio: {
+            nome_da_coordenacao: 'Aro',
+            email: 'aro@gmail.com',
+            telefone: 999999999
+        },
+        tipo_de_pesquisa: 'CI',
+        titulo: 'Pesquisa do tulao',
+        nome_fantasia: 'Pesquisa do tulao 2',
+        numero_de_contrato: 123456,
+        numero_CAAE: 123987,
+        patrocinadores: 'Rodrigo e Rommel',
+        setor_de_atuacao: 'Qualquer bosta',
+        status: 'CA',
+        vinculo_institucional: 'PT'
+    }
 };
 async function listaPesquisas() {
-  let todasAsPesquisas = pesquisa;
+    let todasAsPesquisas = await pegaPesquisas();
 
-  todasAsPesquisas
-    .map(pesquisa => {
-      let tipoDaPesquisaCompleto =
-        pesquisa.tipo_de_pesquisa == 'CL' ? 'Clínica' : 'Científica';
-      let statusPesquisaCompleto = '';
+    todasAsPesquisas
+        .map(pesquisa => {
+            let tipoDaPesquisaCompleto =
+                pesquisa.tipo_de_pesquisa == 'CL' ? 'Clínica' : 'Científica';
+            let statusPesquisaCompleto = '';
 
-      if (pesquisa.status == 'EA') {
-        statusPesquisaCompleto = 'Em Andamento';
-      } else if (pesquisa.status == 'CO') {
-        statusPesquisaCompleto = 'Concluída';
-      } else {
-        statusPesquisaCompleto = 'Cancelado';
-      }
+            if (pesquisa.status == 'EA') {
+                statusPesquisaCompleto = 'Em Andamento';
+            } else if (pesquisa.status == 'CO') {
+                statusPesquisaCompleto = 'Concluída';
+            } else {
+                statusPesquisaCompleto = 'Cancelado';
+            }
 
-      return `<tr class="linha-tabela">
+            return `<tr class="linha-tabela">
                     <th scope="row">${pesquisa.id}</th>
                     <td>${pesquisa.titulo}</td>
                     <td>${tipoDaPesquisaCompleto}</td>
@@ -51,107 +51,107 @@ async function listaPesquisas() {
                     <td><button onclick="criaModal(${pesquisa.id})" class="btn btn-dark">Exibir Detalhes</button></td>
                 </tr>    
                 `;
-    })
-    .forEach(pesquisa => {
-      document.getElementById('corpo-tabela').innerHTML += pesquisa;
-    });
+        })
+        .forEach(pesquisa => {
+            document.getElementById('corpo-tabela').innerHTML += pesquisa;
+        });
 }
 
 function pegaPesquisas() {
-  return new Promise((resolve, reject) => {
-    const httpReq = new XMLHttpRequest();
-    const url = 'http://127.0.0.1:8000/sgcpc/pesquisas/';
+    return new Promise((resolve, reject) => {
+        const httpReq = new XMLHttpRequest();
+        const url = 'http://127.0.0.1:8000/sgcpc/pesquisas/';
 
-    httpReq.responseType = 'json';
+        httpReq.responseType = 'json';
 
-    httpReq.open('GET', url);
+        httpReq.open('GET', url);
 
-    httpReq.onload = function() {
-      if (this.status >= 200 && this.status < 300) {
-        resolve(httpReq.response);
-      } else {
-        reject({
-          status: this.status,
-          statusText: httpReq.statusText
-        });
-      }
-    };
+        httpReq.onload = function () {
+            if (this.status >= 200 && this.status < 300) {
+                resolve(httpReq.response);
+            } else {
+                reject({
+                    status: this.status,
+                    statusText: httpReq.statusText
+                });
+            }
+        };
 
-    httpReq.onerror = function() {
-      reject({
-        status: this.status,
-        statusText: httpReq.statusText
-      });
-    };
+        httpReq.onerror = function () {
+            reject({
+                status: this.status,
+                statusText: httpReq.statusText
+            });
+        };
 
-    httpReq.send();
-  });
+        httpReq.send();
+    });
 }
 let editar = false;
 async function criaModal(pesquisaID, editar) {
-  const pesquisa1 = {
-    pesquisa: {
-      id: '1',
-      investigador: {
-        nome: 'Tulao',
-        email: 'tulao@gmail.com',
-        telefone: 996796042
-      },
-      equipe_de_apoio: {
-        nome_da_coordenacao: 'Aro',
-        email: 'aro@gmail.com',
-        telefone: 999999999
-      },
-      tipo_de_pesquisa: 'CI',
-      titulo: 'Pesquisa do tulao',
-      nome_fantasia: 'Pesquisa do tulao 2',
-      numero_de_contrato: 123456,
-      numero_CAAE: 123987,
-      patrocinadores: 'Rodrigo e Rommel',
-      setor_de_atuacao: 'Qualquer bosta',
-      status: 'CA',
-      vinculo_institucional: 'PT'
+    const pesquisa1 = {
+        pesquisa: {
+            id: '1',
+            investigador: {
+                nome: 'Tulao',
+                email: 'tulao@gmail.com',
+                telefone: 996796042
+            },
+            equipe_de_apoio: {
+                nome_da_coordenacao: 'Aro',
+                email: 'aro@gmail.com',
+                telefone: 999999999
+            },
+            tipo_de_pesquisa: 'CI',
+            titulo: 'Pesquisa do tulao',
+            nome_fantasia: 'Pesquisa do tulao 2',
+            numero_de_contrato: 123456,
+            numero_CAAE: 123987,
+            patrocinadores: 'Rodrigo e Rommel',
+            setor_de_atuacao: 'Qualquer bosta',
+            status: 'CA',
+            vinculo_institucional: 'PT'
+        }
+    };
+
+    let editarPesquisa = editar;
+
+    let todasAsPesquisas = await pegaPesquisas();
+
+    //let todosOsPacientes = await pegaPacientes();
+    let numeroDePacientesDaPesquisa = pegaNumeroDePacientesDaPesquisa(
+        pesquisaID,
+        pegaPacientes
+    );
+
+    let pesquisa = Object.values(todasAsPesquisas).filter(
+        pesquisa => pesquisa.id == pesquisaID
+    )[0];
+
+    let tipoDaPesquisaCompleto =
+        pesquisa.tipo_de_pesquisa == 'CL' ? 'Clínica' : 'Científica';
+    let statusPesquisaCompleto = '';
+    let vinculoPesquisaCompleto = '';
+
+    if (pesquisa.status == 'EA') {
+        statusPesquisaCompleto = 'Em Andamento';
+    } else if (pesquisa.status == 'CO') {
+        statusPesquisaCompleto = 'Concluída';
+    } else {
+        statusPesquisaCompleto = 'Cancelado';
     }
-  };
 
-  let editarPesquisa = editar;
+    if (pesquisa.vinculo_institucional == 'PT') {
+        vinculoPesquisaCompleto = 'Pesquisa de Centro Terceirizado';
+    } else if (pesquisa.vinculo_institucional == 'PI') {
+        vinculoPesquisaCompleto = 'Pesquisa Institucional';
+    } else {
+        vinculoPesquisaCompleto = 'Pesquisa Acadêmica';
+    }
+    let valuesf;
 
-  let todasAsPesquisas = pegaPesquisas();
-
-  //let todosOsPacientes = await pegaPacientes();
-  let numeroDePacientesDaPesquisa = pegaNumeroDePacientesDaPesquisa(
-    pesquisaID,
-    pegaPacientes
-  );
-
-  let pesquisa = todasAsPesquisas.filter(
-    pesquisa => pesquisa.id == pesquisaID
-  )[0];
-
-  let tipoDaPesquisaCompleto =
-    pesquisa.tipo_de_pesquisa == 'CL' ? 'Clínica' : 'Científica';
-  let statusPesquisaCompleto = '';
-  let vinculoPesquisaCompleto = '';
-
-  if (pesquisa.status == 'EA') {
-    statusPesquisaCompleto = 'Em Andamento';
-  } else if (pesquisa.status == 'CO') {
-    statusPesquisaCompleto = 'Concluída';
-  } else {
-    statusPesquisaCompleto = 'Cancelado';
-  }
-
-  if (pesquisa.vinculo_institucional == 'PT') {
-    vinculoPesquisaCompleto = 'Pesquisa de Centro Terceirizado';
-  } else if (pesquisa.vinculo_institucional == 'PI') {
-    vinculoPesquisaCompleto = 'Pesquisa Institucional';
-  } else {
-    vinculoPesquisaCompleto = 'Pesquisa Acadêmica';
-  }
-  let valuesf;
-
-  let htmlDoModal = editarPesquisa
-    ? `
+    let htmlDoModal = editarPesquisa
+        ? `
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -180,7 +180,7 @@ async function criaModal(pesquisaID, editar) {
         </div>
     </div>
     `
-    : `
+        : `
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -208,95 +208,95 @@ async function criaModal(pesquisaID, editar) {
         </div>
         `;
 
-  let modalNoHtml = document.getElementById('modal-pesquisa');
+    let modalNoHtml = document.getElementById('modal-pesquisa');
 
-  modalNoHtml.innerHTML = htmlDoModal;
+    modalNoHtml.innerHTML = htmlDoModal;
 
-  modalNoHtml.style.display = 'block';
+    modalNoHtml.style.display = 'block';
 }
 
 function fechaModal() {
-  document.getElementById('modal-pesquisa').style.display = 'none';
+    document.getElementById('modal-pesquisa').style.display = 'none';
 }
 
 function editarPesquisaAPI(data, pesquisaID) {
-  console.log(data.target[0].value);
-  const dataJson = {
-    titulo: data.target[0].value,
-    investigador: {
-      nome: data.target[8].value
-    },
-    tipo_de_pesquisa: data.target[1].value,
-    nome_fantasia: data.target[3].value,
-    numero_de_contrato: data.target[6].value,
-    numero_CAAE: data.target[5].value,
-    setor_de_atuacao: data.target[4].value,
-    status: data.target[2].value,
-    vinculo_institucional: data.target[7].value
-  };
-  return new Promise((resolve, reject) => {
-    const httpReq = new XMLHttpRequest();
-    const url = `http://127.0.0.1:8000/sgcpc/pesquisas/${pesquisaID}`;
-
-    httpReq.open('PATCH', url, true);
-
-    httpReq.setRequestHeader('Content-Type', 'application/json');
-
-    httpReq.onload = function() {
-      if (this.status >= 200 && this.status < 300) {
-        resolve(httpReq.response);
-      } else {
-        reject({
-          status: this.status,
-          statusText: httpReq.statusText
-        });
-      }
+    console.log(data.target[0].value);
+    const dataJson = {
+        titulo: data.target[0].value,
+        investigador: {
+            nome: data.target[8].value
+        },
+        tipo_de_pesquisa: data.target[1].value,
+        nome_fantasia: data.target[3].value,
+        numero_de_contrato: data.target[6].value,
+        numero_CAAE: data.target[5].value,
+        setor_de_atuacao: data.target[4].value,
+        status: data.target[2].value,
+        vinculo_institucional: data.target[7].value
     };
+    return new Promise((resolve, reject) => {
+        const httpReq = new XMLHttpRequest();
+        const url = `http://127.0.0.1:8000/sgcpc/pesquisas/${pesquisaID}`;
 
-    httpReq.onerror = function() {
-      reject({
-        status: this.status,
-        statusText: httpReq.statusText
-      });
-    };
+        httpReq.open('PATCH', url, true);
 
-    httpReq.send(JSON.stringify(dataJson));
-  });
+        httpReq.setRequestHeader('Content-Type', 'application/json');
+
+        httpReq.onload = function () {
+            if (this.status >= 200 && this.status < 300) {
+                resolve(httpReq.response);
+            } else {
+                reject({
+                    status: this.status,
+                    statusText: httpReq.statusText
+                });
+            }
+        };
+
+        httpReq.onerror = function () {
+            reject({
+                status: this.status,
+                statusText: httpReq.statusText
+            });
+        };
+
+        httpReq.send(JSON.stringify(dataJson));
+    });
 }
 
 function pegaPacientes() {
-  return new Promise((resolve, reject) => {
-    const httpReq = new XMLHttpRequest();
-    const url = 'http://127.0.0.1:8000/sgcpc/pacientes/';
+    return new Promise((resolve, reject) => {
+        const httpReq = new XMLHttpRequest();
+        const url = 'http://127.0.0.1:8000/sgcpc/pacientes/';
 
-    httpReq.responseType = 'json';
+        httpReq.responseType = 'json';
 
-    httpReq.open('GET', url);
+        httpReq.open('GET', url);
 
-    httpReq.onload = function() {
-      if (this.status >= 200 && this.status < 300) {
-        resolve(httpReq.response);
-      } else {
-        reject({
-          status: this.status,
-          statusText: httpReq.statusText
-        });
-      }
-    };
+        httpReq.onload = function () {
+            if (this.status >= 200 && this.status < 300) {
+                resolve(httpReq.response);
+            } else {
+                reject({
+                    status: this.status,
+                    statusText: httpReq.statusText
+                });
+            }
+        };
 
-    httpReq.onerror = function() {
-      reject({
-        status: this.status,
-        statusText: httpReq.statusText
-      });
-    };
+        httpReq.onerror = function () {
+            reject({
+                status: this.status,
+                statusText: httpReq.statusText
+            });
+        };
 
-    httpReq.send();
-  });
+        httpReq.send();
+    });
 }
 
 function pegaNumeroDePacientesDaPesquisa(idDaPesquisa, listaDePacientes) {
-  return listaDePacientes.filter(
-    paciente => paciente['pesquisa'] == idDaPesquisa
-  ).length;
+    return Object.values(listaDePacientes).filter(
+        paciente => paciente['pesquisa'] == idDaPesquisa
+    ).length;
 }
