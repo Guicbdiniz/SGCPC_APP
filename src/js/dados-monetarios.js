@@ -41,8 +41,6 @@ function adicionarDadosMonetarios() {
 
 function formEValido() {
 
-    // Essa função não está funcionando
-
     let elementosHTML = document.getElementsByClassName('form-control');
 
     let elementosDeInput = Array.from(elementosHTML);
@@ -72,7 +70,7 @@ function pegaDadosMonetarios() {
 async function mandaEntradaFinanceira(dados) {
 
     try {
-        let requestFuncionou = await mandaEntradaParaApi(dados);
+        await mandaEntradaParaApi(dados);
         alert('Entrada Financeira enviada com sucesso!');
         document.location.href = '../index.html';
     } catch (e) {
@@ -84,7 +82,7 @@ async function mandaEntradaFinanceira(dados) {
 async function mandaSaidaFinanceira(dados) {
 
     try {
-        let requestFuncionou = await mandaSaidaParaAPi(dados);
+        await mandaSaidaParaAPi(dados);
         alert('Saída Financeira enviada com sucesso!');
         document.location.href = '../index.html';
     } catch (e) {
@@ -195,6 +193,7 @@ async function pegaDadosMonetariosDaPesquisa() {
                     <td>${dados['descricao']}</td>
                     <td>${dados['valor']}</td>
                     <td>${dados['status']}</td>
+                    <td><button type="submit" class="btn btn-dark" onclick="chamaPaginaDeEdicaoDeDadosMonetarios(${dados['id']}, false)">Editar</button></td>
                     </tr>`
                 } else {
                     return `
@@ -205,6 +204,7 @@ async function pegaDadosMonetariosDaPesquisa() {
                     <td>${dados['descricao']}</td>
                     <td>${dados['valor']}</td>
                     <td>${dados['status']}</td>
+                    <td><button type="submit" class="btn btn-dark" onclick="chamaPaginaDeEdicaoDeDadosMonetarios(${dados['id']}, true)">Editar</button></td>
                     </tr>`
                 }
             }
@@ -250,4 +250,12 @@ function pegaDadosAPI(urlChegada) {
         httpReq.send();
 
     })
+}
+
+function chamaPaginaDeEdicaoDeDadosMonetarios(idDosDados, eEntradaMonetaria) {
+    if (eEntradaMonetaria) {
+        document.location.href = `editar-entrada.html?idDadosMon=${idDosDados}`;
+    } else {
+        document.location.href = `editar-saida.html?idDadosMon=${idDosDados}`;
+    }
 }
