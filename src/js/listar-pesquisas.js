@@ -117,6 +117,7 @@ async function criaModal(pesquisaID) {
                     <p><span class="atributo-pesquisa">Vínculo Institucional:</span> ${vinculoPesquisaCompleto} </p>
                     <p><span class="atributo-pesquisa">Investigador Principal:</span> ${pesquisa.investigador.nome} </p>
                     <p><span class="atributo-pesquisa">Número de Pacientes:</span> <a href="listar-pacientes.html?idPesquisa=${pesquisaID}"> ${numeroDePacientesDaPesquisa} </a> </p>
+                    <button type="submit" class="btn btn-dark" onclick="chamaPaginaDeEditarPesquisa(${pesquisaID})">Editar</button>
                 </div>
             </div>
         </div>
@@ -127,6 +128,12 @@ async function criaModal(pesquisaID) {
     modalNoHtml.innerHTML = htmlDoModal;
 
     modalNoHtml.style.display = "block";
+}
+
+function chamaPaginaDeEditarPesquisa(idDaPesquisa) {
+
+    document.location.href = `editar-pesquisa.html?idPesquisa=${idDaPesquisa}`;
+
 }
 
 function fechaModal() {
