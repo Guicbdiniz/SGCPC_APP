@@ -74,6 +74,8 @@ async function criaModal(pesquisaID) {
 
     let pesquisa = todasAsPesquisas.filter(pesquisa => pesquisa.id == pesquisaID)[0];
 
+    console.log(pesquisa);
+
     let tipoDaPesquisaCompleto = pesquisa.tipo_de_pesquisa == 'CL' ?
         'Clínica' :
         'Científica';
@@ -116,6 +118,7 @@ async function criaModal(pesquisaID) {
                     <p><span class="atributo-pesquisa">Numero de Contrato:</span> ${pesquisa.numero_de_contrato} </p>
                     <p><span class="atributo-pesquisa">Vínculo Institucional:</span> ${vinculoPesquisaCompleto} </p>
                     <p><span class="atributo-pesquisa">Investigador Principal:</span> ${pesquisa.investigador.nome} </p>
+                    <p><span class="atributo-pesquisa">Equipe De Apoio:</span> ${pesquisa.equipe_de_apoio.nome_da_coordenacao} </p>
                     <p><span class="atributo-pesquisa">Número de Pacientes:</span> <a href="listar-pacientes.html?idPesquisa=${pesquisaID}"> ${numeroDePacientesDaPesquisa} </a> </p>
                     <button type="submit" class="btn btn-dark" onclick="chamaPaginaDeEditarPesquisa(${pesquisaID})">Editar</button>
                 </div>
